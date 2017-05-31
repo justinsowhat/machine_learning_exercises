@@ -2,34 +2,36 @@ from clustering.kmeans import KMeans
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import pairwise_distances
+from sklearn.preprocessing import normalize
 
 
 def main():
+    # just to run the algorithm with some actual data
     newsgroups_train = fetch_20newsgroups(subset='train', categories=['alt.atheism', 'talk.religion.misc',
                                                                       'comp.graphics', 'sci.space'])
     vectorizer = TfidfVectorizer()
     X = vectorizer.fit_transform(newsgroups_train.data)
-
-    model = KMeans(X, 4, True)
+    X = normalize(X)
+    model = KMeans(X, 4, smart_init=False)
     model.train(max_iter=50, verbose=True)
-    # model.plot_clusters()
-    visualize_document_clusters(newsgroups_train.data, X, vectorizer, model)
+    visualize_document_clusters(newsgroups_train.data, X, vectorizer, model, False)
 
 
 def visualize_document_clusters(raw, X, vectorizer, model, display_content=True):
-    "borrowed the method from the cluster course on Coursera"
+    """borrowed the method from the cluster course on Coursera"""
     print('==========================================================')
     centroids = model.centroids
 
     # Visualize each cluster c
     for c in range(model.K):
         # Cluster heading
-        print('Cluster {0:d}    '.format(c)),
-        # Print top 5 words with largest TF-IDF weights in the cluster
+        print(),
+        # Print top 10 words with largest TF-IDF weights in the cluster
         idx = centroids[c].argsort()[::-1]
-        for i in range(5):  # Print each word along with the TF-IDF weight
-            print('{0:s}:{1:.3f}'.format(vectorizer.get_feature_names()[idx[i]], centroids[c, idx[i]])),
-        print('')
+        top_10_words = []
+        for i in range(10):
+            top_10_words.append(vectorizer.get_feature_names()[idx[i]])
+        print('Cluster {0:d}: [{1}]'.format(c, ", ".join(top_10_words)))
 
         if display_content:
             # Compute distances from the centroid to all data points in the cluster,
@@ -41,7 +43,7 @@ def visualize_document_clusters(raw, X, vectorizer, model, display_content=True)
                 text = ' '.join(raw[nearest_neighbors[i]].split(None, 25)[0:50])
                 print('\n* {0:.5f}\n  {1:s}\n  {2:s}'.format(distances[nearest_neighbors[i]], text[:90], text[90:180]
                                                                 if len(text) > 90 else ''))
-        print('==========================================================')
+            print('==========================================================')
 
 if __name__ == "__main__":
     main()

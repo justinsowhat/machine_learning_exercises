@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.metrics import pairwise_distances
 
 
@@ -18,7 +17,7 @@ class KMeans(object):
 
         if not smart_init:  # initialize random centroids
             rand_indices = np.random.randint(0, self.N, self.K)
-            self.centroids = self.X[rand_indices, :]
+            self.centroids = self.X[rand_indices, :].toarray()
         else:  # use k-means++ smart initialization
             self.centroids = self.__smart_init(self.K, self.X, seed=seed)
 
@@ -40,12 +39,6 @@ class KMeans(object):
                 if verbose:
                     print('Iteration #{0}: {1:5d} elements changed their cluster assignment.'.format(i, num_changed))
             prev_clusters = self.clusters[:]
-
-    def plot_clusters(self):
-        # need to fix this
-        plt.plot(self.clusters)
-        plt.title("Clusters")
-        plt.show()
 
     def __assign_clusters(self):
         distances = pairwise_distances(self.X, self.centroids, metric='euclidean')
