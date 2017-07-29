@@ -12,7 +12,7 @@ b1 = np.zeros(M)
 W2 = np.random.randn(M, K)
 b2 = np.zeros(K)
 
-P_Y_given_X = forwardprop(X, [W1,W2], [b1, b2])
+P_Y_given_X, Z = forward(X, W1, b1, W2, b2)
 predictions = np.argmax(P_Y_given_X, axis=1)
 
 print "accuracy is %s" % accuracy(predictions, Y)

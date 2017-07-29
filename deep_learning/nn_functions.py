@@ -5,14 +5,31 @@ def softmax(a):
     return expA / expA.sum(axis=1, keepdims=True)
 
 
-def forwardprop(X, weights, biases):
-    assert len(weights) == len(biases)
-    assert len(weights) > 1
-    WB = list(zip(weights, biases))
-    Z = np.tanh(X.dot(WB[0][0]) + WB[0][1])
-    for w, b in WB[1:-1]:
-        Z = np.tanh(Z.dot(w) + b)
-    return softmax(Z.dot(WB[-1][0])+ WB[-1][1])
+def forward(X, W1, b1, W2, b2):
+    Z = np.tanh(X.dot(W1) + b1)
+    return softmax(Z.dot(W2)+ b2), Z
+
+
+def cost(T, Y):
+    tot = T * np.log(Y)
+    return tot.sum()
+
+def derivative_w2(Z, T, Y):
+    N, K = T.shape
+    M = Z.shape[1]
+    return Z.T.dot(T-Y)
+
+def derivative_b2(T, Y):
+    return (T-Y).sum(axis=0)
+
+def derivative_w1(X, Z, T, Y, W2):
+    N, D = X.shape
+    M, K = W2.shape
+    dZ = (T - Y).dot(W2.T) * Z * (1 - Z)
+    return X.T.dot(dZ)
+
+def derivative_b1(T, Y, W2, Z):
+    return ((T - Y).dot(W2.T) * Z * (1-Z)).sum(axis=0)
 
 def accuracy(Y, P):
     n_correct = 0
