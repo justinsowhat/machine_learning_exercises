@@ -31,6 +31,12 @@ def derivative_w1(X, Z, T, Y, W2):
 def derivative_b1(T, Y, W2, Z):
     return ((T - Y).dot(W2.T) * Z * (1-Z)).sum(axis=0)
 
+def predict(P_Y_given_X):
+    return np.argmax(P_Y_given_X, axis=1)
+
+def cross_entropy(T, pY):
+    return -np.mean(T*np.log(pY))
+
 def accuracy(Y, P):
     n_correct = 0
     n_total = 0
