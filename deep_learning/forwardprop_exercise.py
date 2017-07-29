@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from nn_functions import *
 
 Nclass = 500
 
@@ -23,25 +24,9 @@ b1 = np.random.randn(M)
 W2 = np.random.randn(M, K)
 b2 = np.random.randn(K)
 
-def forward(X, W1, b1, W2, b2):
-    Z = 1 / (1 + np.exp(-X.dot(W1)- b1))
-    A = Z.dot(W2) + b2
-    expA = np.exp(A)
-    Y = expA / expA.sum(axis=1, keepdims=True)
-    return Y
-
-def classification_rate(Y, P):
-    n_correct = 0
-    n_total = 0
-    for i in xrange(len(Y)):
-        n_total += 1
-        if Y[i] == P[i]:
-            n_correct += 1
-    return float(n_correct) / n_total
-
-P_Y_given_X = forward(X, W1, b1, W2, b2)
+P_Y_given_X = forwardprop(X, [W1,W2], [b1,b2])
 P = np.argmax(P_Y_given_X, axis = 1)
 
 assert(len(P) == len(Y))
 
-print "classification rate for randomly chosen weights: %s" % classification_rate(Y, P)
+print "classification rate for randomly chosen weights: %s" % accuracy(Y, P)
