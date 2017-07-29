@@ -15,4 +15,4 @@ b2 = np.zeros(K)
 P_Y_given_X = forwardprop(X, [W1,W2], [b1, b2])
 predictions = np.argmax(P_Y_given_X, axis=1)
 
-print "accuracy is %s" % classification_rate(P_Y_given_X, predictions)
+print "accuracy is %s" % accuracy(predictions, Y)

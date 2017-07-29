@@ -22,6 +22,3 @@ def accuracy(Y, P):
         if Y[i] == P[i]:
             n_correct += 1
     return float(n_correct) / n_total
-
-def classification_rate(Y, P):
-    return np.mean(Y == P)
