@@ -103,3 +103,5 @@ ENV/
 
 # mac os
 *.DS_Store
+dataset/
+deep_learning/with_tf/data/
