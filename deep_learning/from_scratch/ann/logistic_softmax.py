@@ -4,10 +4,11 @@ from sklearn.utils import shuffle
 from data_processing import get_data
 from nn_functions import softmax, accuracy
 
+
 def y2indicator(y, K):
     N = len(y)
     ind = np.zeros((N, K))
-    for i in xrange(N):
+    for i in range(N):
         ind[i, y[i]] = 1
     return ind
 
@@ -50,11 +51,11 @@ for i in xrange(10000):
 
     W -= learning_rate * Xtrain.T.dot(pYtrain - Ytrain_ind)
     b -= learning_rate * (pYtrain - Ytrain_ind).sum(axis=0)
-    if i  % 100 == 0:
-        print i, ctrain, ctest
+    if i % 100 == 0:
+        print(i, ctrain, ctest)
 
-print "Training accuracy: %s" % accuracy(Ytrain, predict(pYtrain))
-print "Test accuracy: %s" % accuracy(Ytest, predict(pYtest))
+print("Training accuracy: %s" % accuracy(Ytrain, predict(pYtrain)))
+print("Test accuracy: %s" % accuracy(Ytest, predict(pYtest)))
 
 legend1, = plt.plot(train_costs, label='train cost')
 legend2, = plt.plot(test_costs, label='test cost')

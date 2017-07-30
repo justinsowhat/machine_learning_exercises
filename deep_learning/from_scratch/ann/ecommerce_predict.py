@@ -5,10 +5,11 @@ from data_processing import get_data
 from nn_functions import *
 from sklearn.utils import shuffle
 
+
 def y2indicator(y, K):
     N = len(y)
     ind = np.zeros((N, K))
-    for i in xrange(N):
+    for i in range(N):
         ind[i, y[i]] = 1
     return ind
 
@@ -35,7 +36,7 @@ b2 = np.zeros(K)
 train_costs = []
 test_costs = []
 learning_rate = 0.0001
-for i in xrange(10000):
+for i in range(10000):
     pYtrain, Ztrain = forward(Xtrain, W1, b1, W2, b2)
     pYtest, Ztest = forward(Xtest, W1, b1, W2, b2)
 
@@ -51,10 +52,10 @@ for i in xrange(10000):
     b1 -= learning_rate * dZ.sum(axis=0)
 
     if i % 1000 == 0:
-        print i, ctrain, ctest
+        print(i, ctrain, ctest)
 
-print "Training accuracy: %s" % accuracy(Ytrain, predict(pYtrain))
-print "Test accuracy: %s" % accuracy(Ytest, predict(pYtest))
+print("Training accuracy: %s" % accuracy(Ytrain, predict(pYtrain)))
+print("Test accuracy: %s" % accuracy(Ytest, predict(pYtest)))
 
 legend1, = plt.plot(train_costs, label='train cost')
 legend2, = plt.plot(test_costs, label='test cost')

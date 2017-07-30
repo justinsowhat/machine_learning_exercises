@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+
 def get_data():
     df = pd.read_csv('ecommerce_data.csv')
     data = df.as_matrix()
@@ -17,11 +18,12 @@ def get_data():
     X2[:, 0:(D-1)] = X[:, 0:(D-1)]
 
     # convert cateogrical data to one-hot vectors
-    for n in xrange(N):
+    for n in range(N):
         t = int(X[n, D-1])
         X2[n, t+D-1] = 1
 
     return X2, Y
+
 
 def get_binary_data():
     # only return data from the first two classes

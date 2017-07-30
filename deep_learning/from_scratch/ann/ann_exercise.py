@@ -29,13 +29,13 @@ b2 = np.random.randn(K)
 
 learning_rate = 10e-7
 costs = []
-for epoch in xrange(10000):
+for epoch in range(10000):
     output, hidden = forward(X, W1, b1, W2, b2)
     if epoch % 100 == 0:
         c = cost(T, output)
         P = np.argmax(output, axis=1)
         r = accuracy(Y, P)
-        print "cost: {0}\taccuracy: {1}".format(c, r)
+        print("cost: {0}\taccuracy: {1}".format(c, r))
         costs.append(c)
 
     W2 += learning_rate * derivative_w2(hidden, T, output)
