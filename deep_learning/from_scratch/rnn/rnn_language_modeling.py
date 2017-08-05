@@ -75,6 +75,8 @@ def loss(inputs, targets, prev_hidden):
     dhnext = np.zeros_like(hs[0])
 
     # calculating the partial derivatives
+    # it's actually very slow...
+    # need to figure out how to improve it
     for t in reversed((range(len(inputs)))):
         dy = np.copy(probs[t])
         dy[targets[t]] -= 1

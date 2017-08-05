@@ -1,7 +1,8 @@
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
 from tensorflow.contrib import learn
-from deep_learning.with_tf.nlp import data_helpers
+
+from deep_learning.with_tf.nlp.text_classification import data_helpers
 
 
 class CNN(object):
